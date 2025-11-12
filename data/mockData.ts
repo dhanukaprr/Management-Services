@@ -1,7 +1,7 @@
-import { Province } from '../types';
-import { NewsArticle } from '../types';
+import { Province, NewsArticle, ApplicationForm } from '../types';
 
-export const PROVINCES: Province[] = [
+// Initial data sets - these are not exported directly anymore
+const PROVINCES_DATA: Province[] = [
   {
     id: 1,
     name: 'Western Province',
@@ -146,7 +146,7 @@ export const PROVINCES: Province[] = [
   }
 ];
 
-export const NEWS_ARTICLES: NewsArticle[] = [
+const NEWS_ARTICLES_DATA: NewsArticle[] = [
   {
     id: 1,
     title: 'Nationwide Dengue Prevention Campaign Launched',
@@ -195,3 +195,42 @@ export const NEWS_ARTICLES: NewsArticle[] = [
     imageUrl: 'https://picsum.photos/seed/sl-news6/400/300',
   },
 ];
+
+const DOWNLOADABLE_FORMS_DATA: ApplicationForm[] = [
+    { id: 1, name: 'Membership Form', url: '/forms/membership-form.pdf' },
+    { id: 2, name: 'Loan Application Form', url: '/forms/loan-application-form.pdf' },
+];
+
+
+// In-memory data store to simulate a backend
+let provinces: Province[] = [...PROVINCES_DATA];
+let newsArticles: NewsArticle[] = [...NEWS_ARTICLES_DATA];
+let downloadableForms: ApplicationForm[] = [...DOWNLOADABLE_FORMS_DATA];
+
+export const dataStore = {
+  getProvinces: (): Province[] => provinces,
+  getNews: (): NewsArticle[] => newsArticles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+  getDownloads: (): ApplicationForm[] => downloadableForms,
+  
+  addNews: (article: Omit<NewsArticle, 'id'>) => {
+    const newId = Math.max(...newsArticles.map(n => n.id), 0) + 1;
+    const newArticle: NewsArticle = { ...article, id: newId };
+    newsArticles.unshift(newArticle);
+    return newArticle;
+  },
+  
+  deleteNews: (id: number) => {
+    newsArticles = newsArticles.filter(a => a.id !== id);
+  },
+  
+  addDownload: (form: Omit<ApplicationForm, 'id'>) => {
+    const newId = Math.max(...downloadableForms.map(f => f.id), 0) + 1;
+    const newForm: ApplicationForm = { ...form, id: newId };
+    downloadableForms.push(newForm);
+    return newForm;
+  },
+  
+  deleteDownload: (id: number) => {
+    downloadableForms = downloadableForms.filter(f => f.id !== id);
+  },
+};
