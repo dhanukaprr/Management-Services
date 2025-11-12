@@ -22,14 +22,14 @@ const AdminLoginPage: React.FC = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold text-center text-slate-800">Admin Login</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md border border-gray-200">
+        <h1 className="text-3xl font-bold text-center text-gray-800">Admin Login</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
               htmlFor="username"
-              className="text-sm font-bold text-slate-600 block"
+              className="text-sm font-bold text-gray-600 block"
             >
               Username
             </label>
@@ -38,14 +38,14 @@ const AdminLoginPage: React.FC = () => {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-3 mt-1 text-slate-800 bg-slate-50 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 mt-1 text-gray-800 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
               required
             />
           </div>
           <div>
             <label
               htmlFor="password"
-              className="text-sm font-bold text-slate-600 block"
+              className="text-sm font-bold text-gray-600 block"
             >
               Password
             </label>
@@ -54,7 +54,7 @@ const AdminLoginPage: React.FC = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 mt-1 text-slate-800 bg-slate-50 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 mt-1 text-gray-800 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
               required
             />
           </div>
@@ -62,12 +62,12 @@ const AdminLoginPage: React.FC = () => {
           <div>
             <button
               type="submit"
-              className="w-full py-3 px-4 text-white bg-blue-700 rounded-md font-bold hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full py-3 px-4 text-white bg-gray-700 rounded-md font-bold hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
             >
               Login
             </button>
           </div>
-          <div className="text-xs text-center text-slate-500">
+          <div className="text-xs text-center text-gray-500">
             <p>Use username: <strong>admin</strong> | password: <strong>password</strong></p>
           </div>
         </form>

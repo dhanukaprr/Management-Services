@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { dataStore } from '../data/mockData';
 import NewsCard from '../components/NewsCard';
 import { Province } from '../types';
+import WireframePlaceholder from '../components/WireframePlaceholder';
 
 const DownloadIcon: React.FC<{className: string}> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -23,10 +24,10 @@ const ProvincePage: React.FC = () => {
   if (!province) {
     return (
       <div className="text-center py-20">
-        <h1 className="text-3xl font-bold mb-4">Province Not Found</h1>
-        <p className="text-slate-600 mb-8">The province you are looking for does not exist.</p>
-        <Link to="/provinces" className="bg-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-800 transition-colors">
-          Back to Provinces List
+        <h1 className="text-3xl font-bold mb-4">Content Not Found</h1>
+        <p className="text-gray-600 mb-8">Lorem ipsum dolor sit amet, consectetur.</p>
+        <Link to="/provinces" className="bg-gray-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-800 transition-colors">
+          Back to List
         </Link>
       </div>
     );
@@ -34,47 +35,47 @@ const ProvincePage: React.FC = () => {
 
   return (
     <div className="space-y-12">
-      <section className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg border border-slate-200">
-          <img src={province.imageUrl} alt={province.name} className="w-full h-full object-cover"/>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+      <section className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg border border-gray-200 bg-gray-200">
+          <WireframePlaceholder className="w-full h-full"/>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
           <h1 className="absolute bottom-8 left-8 text-4xl md:text-5xl font-extrabold text-white">{province.name}</h1>
       </section>
 
-      <section className="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
-        <h2 className="text-2xl font-bold mb-4 text-slate-800">About the {province.name}</h2>
-        <p className="text-lg text-slate-700 leading-relaxed">{province.longDescription}</p>
+      <section className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">About the {province.name}</h2>
+        <p className="text-lg text-gray-700 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
       </section>
 
-      <section className="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
-        <h2 className="text-2xl font-bold mb-6 text-slate-800">Districts within {province.name}</h2>
+      <section className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Districts within {province.name}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {province.districts.map(district => (
-                <div key={district.id} id={`district-${district.id}`} className="p-4 bg-slate-50 border rounded-md text-center">
-                    <span className="font-medium text-slate-800">{district.name}</span>
+                <div key={district.id} id={`district-${district.id}`} className="p-4 bg-gray-50 border rounded-md text-center">
+                    <span className="font-medium text-gray-800">{district.name}</span>
                 </div>
             ))}
         </div>
       </section>
 
       <div className="grid md:grid-cols-2 gap-8">
-        <section className="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
-            <h2 className="text-2xl font-bold mb-6 text-slate-800">Application Forms</h2>
+        <section className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Application Forms</h2>
             <ul className="space-y-4">
                 {province.forms.map(form => (
                     <li key={form.id}>
-                        <a href={form.url} download className="flex items-center justify-between p-4 border rounded-lg hover:bg-slate-50 hover:border-blue-500 transition-colors">
-                            <span className="font-medium text-slate-700">{form.name}</span>
-                            <DownloadIcon className="h-6 w-6 text-blue-600" />
+                        <a href={form.url} download className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 hover:border-gray-500 transition-colors">
+                            <span className="font-medium text-gray-700">{form.name}</span>
+                            <DownloadIcon className="h-6 w-6 text-gray-600" />
                         </a>
                     </li>
                 ))}
             </ul>
         </section>
 
-        <section className="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
-            <h2 className="text-2xl font-bold mb-6 text-slate-800">Loan Application</h2>
-            <p className="text-slate-600 mb-6">Online loan application services will be available soon. Please check back later for updates.</p>
-            <button className="w-full bg-slate-400 text-white font-bold py-3 px-6 rounded-lg cursor-not-allowed">
+        <section className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Loan Application</h2>
+            <p className="text-gray-600 mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+            <button className="w-full bg-gray-400 text-white font-bold py-3 px-6 rounded-lg cursor-not-allowed">
                 System Coming Soon
             </button>
         </section>
@@ -82,7 +83,7 @@ const ProvincePage: React.FC = () => {
 
       {provinceNews.length > 0 && (
         <section>
-          <h2 className="text-3xl font-bold mb-8 text-center text-slate-800">{province.name} News</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">{province.name} News</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {provinceNews.map(article => (
               <NewsCard key={article.id} article={article} />
