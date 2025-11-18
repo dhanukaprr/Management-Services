@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { NEWS_ARTICLES, PROVINCES } from '../data/mockData';
+import { dataStore } from '../data/mockData';
 import NewsCard from '../components/NewsCard';
 
 const HomePage: React.FC = () => {
-  const generalNews = NEWS_ARTICLES.filter(article => !article.provinceId).slice(0, 3);
+  const allNews = dataStore.getNews();
+  const allProvinces = dataStore.getProvinces();
+  const generalNews = allNews.filter(article => !article.provinceId).slice(0, 3);
 
   return (
     <div className="space-y-16">
@@ -49,7 +51,7 @@ const HomePage: React.FC = () => {
       <section>
         <h2 className="text-3xl font-bold mb-8 text-center text-slate-800">Explore Our Provinces</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-center">
-            {PROVINCES.map(p => (
+            {allProvinces.map(p => (
                 <Link to={`/provinces/${p.id}`} key={p.id} className="p-4 bg-white border border-slate-200 rounded-lg hover:shadow-md hover:border-blue-500 transition-all">
                     <span className="font-semibold text-slate-700">{p.name}</span>
                 </Link>

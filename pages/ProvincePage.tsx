@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { PROVINCES, NEWS_ARTICLES } from '../data/mockData';
+import { dataStore } from '../data/mockData';
 import NewsCard from '../components/NewsCard';
 import { Province } from '../types';
 
@@ -13,8 +13,8 @@ const DownloadIcon: React.FC<{className: string}> = ({ className }) => (
 const ProvincePage: React.FC = () => {
   const { provinceId } = useParams<{ provinceId: string }>();
 
-  const province: Province | undefined = PROVINCES.find(p => p.id === parseInt(provinceId || ''));
-  const provinceNews = NEWS_ARTICLES.filter(article => article.provinceId === province?.id);
+  const province: Province | undefined = dataStore.getProvinces().find(p => p.id === parseInt(provinceId || ''));
+  const provinceNews = dataStore.getNews().filter(article => article.provinceId === province?.id);
 
   useEffect(() => {
     window.scrollTo(0, 0);
