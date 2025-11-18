@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { DISTRICTS } from '../data/mockData';
+import { NavLink, Link } from 'react-router-dom';
+import { PROVINCES } from '../data/mockData';
 
 const SriLankaEmblem: React.FC<{className: string}> = ({ className }) => (
     <svg className={className} viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
@@ -21,8 +21,9 @@ const SriLankaEmblem: React.FC<{className: string}> = ({ className }) => (
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDistrictsDropdownOpen, setIsDistrictsDropdownOpen] = useState(false);
+  const [isProvincesDropdownOpen, setIsProvincesDropdownOpen] = useState(false);
   const [isDownloadsDropdownOpen, setIsDownloadsDropdownOpen] = useState(false);
+  const [hoveredProvince, setHoveredProvince] = useState<number | null>(null);
 
   const activeLinkStyle = {
     color: '#800000', // Maroon
@@ -49,30 +50,46 @@ const Header: React.FC = () => {
             <SriLankaEmblem className="h-16 w-auto" />
             <div>
               <h1 className="text-xl font-bold text-blue-800">
-                District Services Portal
+                Provincial Services Portal
               </h1>
-              <p className="text-sm text-slate-500">දිස්ත්‍රික් සේවා ද්වාරය | மாவட்ட சேவைகள் நுழைவாயில்</p>
+              <p className="text-sm text-slate-500">පළාත් සේවා ද්වාරය | மாகாண சேவைகள் நுழைவாயில்</p>
             </div>
           </NavLink>
 
           <nav className="hidden md:flex items-center space-x-6">
             <NavLink to="/" style={({ isActive }) => isActive ? activeLinkStyle : {}} className="text-slate-700 hover:text-blue-800 transition-colors">Home</NavLink>
             <NavLink to="/about" style={({ isActive }) => isActive ? activeLinkStyle : {}} className="text-slate-700 hover:text-blue-800 transition-colors">About Us</NavLink>
-            <div className="relative">
+            <div className="relative" onMouseLeave={() => setIsProvincesDropdownOpen(false)}>
               <button
-                onClick={() => setIsDistrictsDropdownOpen(!isDistrictsDropdownOpen)}
-                onBlur={() => setTimeout(() => setIsDistrictsDropdownOpen(false), 200)}
+                onMouseEnter={() => setIsProvincesDropdownOpen(true)}
                 className="text-slate-700 hover:text-blue-800 transition-colors flex items-center"
               >
-                Districts
-                <svg className={`w-4 h-4 ml-1 transform transition-transform ${isDistrictsDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                Provinces
+                <svg className={`w-4 h-4 ml-1 transform transition-transform ${isProvincesDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
               </button>
-              {isDistrictsDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 border">
-                  <NavLink to="/districts" className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">All Districts</NavLink>
+              {isProvincesDropdownOpen && (
+                <div className="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-20 border">
+                  <NavLink to="/provinces" className="block px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-100">All Provinces</NavLink>
                   <div className="border-t my-1"></div>
-                  {DISTRICTS.map(d => (
-                    <NavLink key={d.id} to={`/districts/${d.id}`} className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">{d.name}</NavLink>
+                  {PROVINCES.map(p => (
+                    <div 
+                      key={p.id}
+                      className="relative" 
+                      onMouseEnter={() => setHoveredProvince(p.id)} 
+                      onMouseLeave={() => setHoveredProvince(null)}
+                    >
+                      <NavLink to={`/provinces/${p.id}`} className="flex justify-between items-center w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">
+                        {p.name}
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+                      </NavLink>
+                      {hoveredProvince === p.id && (
+                         <div className="absolute left-full -top-1 mt-0 w-56 bg-white rounded-md shadow-lg py-1 z-30 border">
+                           {p.districts.map(d => (
+                              <Link key={d.id} to={`/provinces/${p.id}#district-${d.id}`} className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">{d.name}</Link>
+                           ))}
+                         </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               )}
@@ -108,7 +125,12 @@ const Header: React.FC = () => {
           <div className="md:hidden pb-4">
             <NavLink to="/" className="block py-2 px-4 text-sm text-slate-600 hover:bg-slate-100 rounded" onClick={() => setIsMenuOpen(false)}>Home</NavLink>
             <NavLink to="/about" className="block py-2 px-4 text-sm text-slate-600 hover:bg-slate-100 rounded" onClick={() => setIsMenuOpen(false)}>About Us</NavLink>
-            <NavLink to="/districts" className="block py-2 px-4 text-sm text-slate-600 hover:bg-slate-100 rounded" onClick={() => setIsMenuOpen(false)}>All Districts</NavLink>
+            <div className="border-t my-1"></div>
+            <h3 className="px-4 pt-2 pb-1 text-xs font-semibold text-slate-400 uppercase">Provinces</h3>
+            <NavLink to="/provinces" className="block py-2 px-4 text-sm text-slate-600 hover:bg-slate-100 rounded" onClick={() => setIsMenuOpen(false)}>All Provinces</NavLink>
+            {PROVINCES.map(p => (
+                <NavLink key={p.id} to={`/provinces/${p.id}`} className="block py-2 px-4 text-sm text-slate-600 hover:bg-slate-100 rounded" onClick={() => setIsMenuOpen(false)}>{p.name}</NavLink>
+            ))}
             <div className="border-t my-1"></div>
             <h3 className="px-4 pt-2 pb-1 text-xs font-semibold text-slate-400 uppercase">Downloads</h3>
             <a href="/forms/membership-form.pdf" download className="block py-2 px-4 text-sm text-slate-600 hover:bg-slate-100 rounded">Membership Form</a>
